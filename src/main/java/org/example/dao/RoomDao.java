@@ -18,15 +18,7 @@ public class RoomDao {
     public boolean createRoom(Room room){
         try(Connection con = DBConnection.getConnection()){
             PreparedStatement ps = con.prepareStatement("INSERT INTO ROOMS(number,price_pre_night,description, capacity,room_category,room_type_id, hotel_id) VALUES(?,?,?,?,?,?,?)");
-            ps.setInt(1,room.getNumber());
-            ps.setBigDecimal(2, room.getPricePerNight());
-            ps.setString(3, room.getDescription());
-            ps.setInt(4, room.getCapacity());
-            ps.setString(5, room.getRoomCategory());
-            ps.setInt(6,room.getRoomTypeId());
-            ps.setInt(7, room.getHotelId());
-
-            return ps.executeUpdate() > 0;
+            return isRoomUpdatedOrCreated(ps, room);
 
         }catch (SQLException e){
             throw new RuntimeException(e);
@@ -37,15 +29,7 @@ public class RoomDao {
     public boolean updateRoom(Room room){
         try(Connection con = DBConnection.getConnection()){
           PreparedStatement ps = con.prepareStatement("UPDATE  ROOMS SET price_pre_night = ?, desceiption = ?, capacity = ?, room_category = ?, updated_at = ?, room_type_id WHERE id = ?");
-          ps.setBigDecimal(1, room.getPricePerNight());
-          ps.setString(2, room.getDescription());
-          ps.setInt(3, room.getCapacity());
-          ps.setString(4, room.getRoomCategory());
-          ps.setTimestamp(5, Timestamp.valueOf(room.getUpdatedAt()));
-          ps.setInt(6, room.getRoomTypeId());
-          ps.setInt(7, room.getId());
-
-          return ps.executeUpdate() > 0;
+            return isRoomUpdatedOrCreated(ps, room);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -203,6 +187,22 @@ public class RoomDao {
             return new Room(id, number, pricePreNight, description, capacity, roomCategory, roomTypeId, createdAt, updatedAt, hotelId);
         }catch (SQLException e){
             throw new RuntimeException(e);
+        }
+    }
+
+    private boolean isRoomUpdatedOrCreated(PreparedStatement ps, Room room){
+        try{
+            ps.setBigDecimal(1, room.getPricePerNight());
+            ps.setString(2, room.getDescription());
+            ps.setInt(3, room.getCapacity());
+            ps.setString(4, room.getRoomCategory());
+            ps.setTimestamp(5, Timestamp.valueOf(room.getUpdatedAt()));
+            ps.setInt(6, room.getRoomTypeId());
+            ps.setInt(7, room.getId());
+
+            return ps.executeUpdate() > 0;
+        }catch (SQLException e){
+            throw  new RuntimeException(e);
         }
     }
 
