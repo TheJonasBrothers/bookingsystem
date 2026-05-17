@@ -61,18 +61,8 @@ public class RoomDao {
          ResultSet rs = ps.executeQuery();
 
          if(rs.next()){
-             int id = rs.getInt("id");
-             int number = rs.getInt("number");
-             BigDecimal pricePreNight = rs.getBigDecimal("price_pre_night");
-             String description = rs.getNString("description");
-             int capacity = rs.getInt("capacity");
-             String roomCategory = rs.getString("room_category");
-             int roomTypeId = rs.getInt("room_type_id");
-             LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-             LocalDateTime updatedAt = rs.getTimestamp("updated_at").toLocalDateTime();
-             int hotelId = rs.getInt("hotel_id");
 
-             room = new Room(id, number, pricePreNight, description, capacity, roomCategory, roomTypeId, createdAt, updatedAt, hotelId);
+             room = getRoomFromResultSet(rs);
          }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -90,18 +80,8 @@ public class RoomDao {
            ResultSet rs = ps.executeQuery();
 
            while (rs.next()){
-               int id = rs.getInt("id");
-               int number = rs.getInt("number");
-               BigDecimal pricePreNight = rs.getBigDecimal("price_pre_night");
-               String description = rs.getNString("description");
-               int capacity = rs.getInt("capacity");
-               String roomCategory = rs.getString("room_category");
-               int roomTypeId = rs.getInt("room_type_id");
-               LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-               LocalDateTime updatedAt = rs.getTimestamp("updated_at").toLocalDateTime();
-               int hotelId = rs.getInt("hotel_id");
 
-               Room room = new Room(id, number, pricePreNight,description, capacity, roomCategory, roomTypeId, createdAt, updatedAt, hotelId);
+               Room room = getRoomFromResultSet(rs);
                rooms.add(room);
            }
 
@@ -123,18 +103,8 @@ public class RoomDao {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
-                int id = rs.getInt("id");
-                int number = rs.getInt("number");
-                BigDecimal pricePreNight = rs.getBigDecimal("price_pre_night");
-                String description = rs.getNString("description");
-                int capacity = rs.getInt("capacity");
-                String roomCategory = rs.getString("room_category");
-                int roomTypeId = rs.getInt("room_type_id");
-                LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-                LocalDateTime updatedAt = rs.getTimestamp("updated_at").toLocalDateTime();
-                int idHotel = rs.getInt("hotel_id");
 
-                Room room = new Room(id, number, pricePreNight,description, capacity, roomCategory, roomTypeId, createdAt, updatedAt, idHotel);
+                Room room =  getRoomFromResultSet(rs);
                 rooms.add(room);
             }
 
@@ -155,18 +125,8 @@ public class RoomDao {
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
-                int id = rs.getInt("id");
-                int number = rs.getInt("number");
-                BigDecimal pricePreNight = rs.getBigDecimal("price_pre_night");
-                String description = rs.getNString("description");
-                int capacity = rs.getInt("capacity");
-                String roomCategory = rs.getString("room_category");
-                int typeId = rs.getInt("room_type_id");
-                LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-                LocalDateTime updatedAt = rs.getTimestamp("updated_at").toLocalDateTime();
-                int idHotel = rs.getInt("hotel_id");
 
-                Room room = new Room(id, number, pricePreNight,description, capacity, roomCategory, typeId, createdAt, updatedAt, idHotel);
+                Room room = getRoomFromResultSet(rs);
                 rooms.add(room);
             }
 
@@ -225,6 +185,25 @@ public class RoomDao {
         }
 
         return roomType;
+    }
+
+    private Room getRoomFromResultSet(ResultSet rs){
+        try{
+            int id = rs.getInt("id");
+            int number = rs.getInt("number");
+            BigDecimal pricePreNight = rs.getBigDecimal("price_pre_night");
+            String description = rs.getNString("description");
+            int capacity = rs.getInt("capacity");
+            String roomCategory = rs.getString("room_category");
+            int roomTypeId = rs.getInt("room_type_id");
+            LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+            LocalDateTime updatedAt = rs.getTimestamp("updated_at").toLocalDateTime();
+            int hotelId = rs.getInt("hotel_id");
+
+            return new Room(id, number, pricePreNight, description, capacity, roomCategory, roomTypeId, createdAt, updatedAt, hotelId);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
 
