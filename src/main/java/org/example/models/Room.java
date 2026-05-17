@@ -14,22 +14,24 @@ public class Room {
     private int roomTypeId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private int hotelId;
 
 
-    public Room(int id, int number, BigDecimal pricePerNight, String description, int capacity, String roomCategory, int roomTypeId, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this(number, pricePerNight, description, capacity, roomCategory, roomTypeId);
+    public Room(int id, int number, BigDecimal pricePerNight, String description, int capacity, String roomCategory, int roomTypeId, LocalDateTime createdAt, LocalDateTime updatedAt, int hotelId) {
+        this(number, pricePerNight, description, capacity, roomCategory, roomTypeId, hotelId);
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public Room(int number, BigDecimal pricePerNight, String description, int capacity, String roomCategory, int roomTypeId) {
+    public Room(int number, BigDecimal pricePerNight, String description, int capacity, String roomCategory, int roomTypeId, int hotelId) {
         this.number = number;
         this.pricePerNight = pricePerNight;
         this.description = description;
         this.capacity = capacity;
         this.roomCategory = roomCategory;
         this.roomTypeId = roomTypeId;
+        this.hotelId = hotelId;
     }
 
     public int getId() {
@@ -102,6 +104,14 @@ public class Room {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public int getHotelId() {
+        return hotelId;
+    }
+
+    public void setHotelId(int hotelId) {
+        this.hotelId = hotelId;
     }
 
     @Override
