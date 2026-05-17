@@ -13,6 +13,7 @@ import java.util.List;
 
 public class RoomDao {
 
+    private final String baseRoomSelect = "SELECT * FROM rooms";
 
     public boolean createRoom(Room room){
         try(Connection con = DBConnection.getConnection()){
@@ -55,7 +56,7 @@ public class RoomDao {
         Room room = null;
 
         try(Connection con = DBConnection.getConnection()){
-         PreparedStatement ps = con.prepareStatement("SELECT * FROM rooms WHERE id = ?");
+         PreparedStatement ps = con.prepareStatement( baseRoomSelect + " WHERE id = ?");
          ps.setInt(1, roomId);
          ResultSet rs = ps.executeQuery();
 
@@ -85,7 +86,7 @@ public class RoomDao {
         List<Room> rooms = new ArrayList<>();
 
         try(Connection con = DBConnection.getConnection()){
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM rooms");
+            PreparedStatement ps = con.prepareStatement(baseRoomSelect);
            ResultSet rs = ps.executeQuery();
 
            while (rs.next()){
@@ -117,7 +118,7 @@ public class RoomDao {
         List<Room> rooms = new ArrayList<>();
 
         try(Connection con = DBConnection.getConnection()){
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM rooms WHERE hotel_id = ?");
+            PreparedStatement ps = con.prepareStatement( baseRoomSelect + " WHERE hotel_id = ?");
             ps.setInt(1, hotelId);
             ResultSet rs = ps.executeQuery();
 
@@ -149,7 +150,7 @@ public class RoomDao {
         List<Room> rooms = new ArrayList<>();
 
         try(Connection con = DBConnection.getConnection()){
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM rooms WHERE romm_type_id = ?");
+            PreparedStatement ps = con.prepareStatement(baseRoomSelect + " WHERE romm_type_id = ?");
             ps.setInt(1, roomTypeId);
             ResultSet rs = ps.executeQuery();
 
